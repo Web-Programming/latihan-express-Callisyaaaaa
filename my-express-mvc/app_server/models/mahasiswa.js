@@ -21,6 +21,8 @@ const mahasiswaschema = new mongoose.Schema({
     }
 });
 
+
+
 const Mahasiswa = mongoose.model('Mahasiswa', mahasiswaschema);
 module.exports = Mahasiswa;
 
