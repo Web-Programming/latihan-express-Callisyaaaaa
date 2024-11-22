@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-var maincontroller = require("../controllers/main");
+//panggil controller main
+var mainController = require("../controllers/main");
 
 /* GET home page. */
-router.get('/', maincontroller.index);
-router.get('/kontak', maincontroller.kontak)
-router.get('/profil',maincontroller.profil)
+router.get('/', mainController.index);
+router.get('/kontak', mainController.kontak);
+router.get('/profil', mainController.profil);
 
 module.exports = router;

@@ -1,8 +1,8 @@
-const Mahasiswa = require("../models/mahasiswa")
+const Mahasiswa = require("../models/mahasiswa");
 
 
 //untuk menghandle request get all mahasiswa
-const index = (req, res, next) => {
+const Index = (req, res, next) => {
     Mahasiswa.find({}, { __v: 0 })
       .then((mhs) => {
         const responseMessage = {
@@ -132,5 +132,4 @@ const destroy = (req, res, next) => {
             res.status(404).json(responseMessage);
         });
 };
-
-module.exports = { index, insert, update, show, destroy }
+module.exports = { Index, insert, update, show, destroy }

@@ -1,12 +1,13 @@
-const index = (req,res) => {
-    res.render("index",{title: "Express MVC"});
+//controller index
+const index = (rec, res)=> {
+    res.render("index", {title: "Express MVC"});
+}
+//controller kontak
+const kontak = (req, res) => {
+    res.render("kontak", {title: "Ini Halaman Kontak"})
 }
 
-const kontak= (req,res) => {
-    res.render("Kontak",{title:'Ini Halaman Kontak'});
+const profil = (req, res) => {
+    res.render("profil", {title: "Ini Halaman Profil"})
 }
-
-const profil= (req,res) => {
-    res.render("Profil",{title:"Ini Halaman Profil"});
-}
-module.exports = {index, kontak, profil};
+module.exports = { index, kontak, profil };
