@@ -11,7 +11,7 @@ import { FormGroup, FormControl, ReactiveFormsModule  } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
   template: `
      <article >
-      <img class="listing-photo" [src]="housingLocation?.photo"
+      <img class="listing-photo" [src]="baseUrl + housingLocation?.photo"
         alt="Exterior photo of {{housingLocation?.name}}"/>
       <section class="listing-description">
         <h2 class="listing-heading">{{housingLocation?.name}}</h2>
@@ -32,6 +32,8 @@ import { FormGroup, FormControl, ReactiveFormsModule  } from '@angular/forms';
           <input type="text" id="first-name" formControlName="firstName" placeholder="Input first name">
           <label for="last-name">Last Name</label>
           <input type="text" id="last-name" formControlName="lastName" placeholder="Input last name">
+          <label for="email">Email</label>
+          <input type="text" id="email" formControlName="email" placeholder="Input email">
           <button type="submit" class="primary">Apply</button>
         </form>
       </section>
@@ -46,22 +48,39 @@ export class DetailsComponent {
   housingLocation: HousingLocation | undefined
   applyForm: FormGroup = new FormGroup({
     firstName: new FormControl(''),
-    lastName: new FormControl('')
+    lastName: new FormControl(''),
+    email: new FormControl('')
+  
   })
+  readonly baseUrl = 'https://angular.io/assets/images/tutorials/faa';
+  
 
   constructor(){
     this.housingLocationId = Number(this.route.snapshot.params['id']);
-    this.housingService.getHousingLocationById(this.housingLocationId).then (data => {
-      this.housingLocation = data;
+    this.housingService.getHousingLocationById(this.housingLocationId).then(location => {
+      this.housingLocation = location;
     })
     console.table(this.housingLocation)
   }
 
-  submitApplyForm(){
-    //alert("Hallo you submit a form");
-    //alert("Hallo : " + this.applyForm.value.firstName 
-    //  + " " + this.applyForm.value.lastName)
-
-    //panggil API simpan data registarsi via service
+  submitApplyForm() {
+    if (this.applyForm.valid) {
+      this.housingService
+        .submitApplication(
+          this.applyForm.value.firstName ?? '',
+          this.applyForm.value.lastName ?? '',
+          this.applyForm.value.email ?? ''
+        )
+        .then(() => {
+          alert('Application submitted successfully!');
+          this.applyForm.reset();
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+          alert(`Failed to submit application: ${error.message}`);
+        });
+    } else {
+      alert('Please fill in all fields.');
+    }
   }
 }
